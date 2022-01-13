@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from .serializers import BarberSerializer, ClientSerializer, LoginSerializer, RegistrationSerializer, UserSerializer
 from rest_framework import viewsets
+from .renderers import UserJSONRenderer
 from rest_framework import status
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from .models import Barber, Client
 
 class BarberViewSet(viewsets.ModelViewSet):
     queryset = Barber.objects.all()

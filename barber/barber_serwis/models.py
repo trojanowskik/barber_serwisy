@@ -1,6 +1,8 @@
 import jwt
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from datetime import datetime, timedelta
+from barber import settings
 
 
 class UserManager(BaseUserManager):
@@ -68,7 +70,7 @@ class User(AbstractUser):
 
         token = jwt.encode({
             'id': self.pk,
-            'exp': int(dt.strftime('%s'))
+            'exp': datetime.utcnow() + timedelta(days = 2)
         }, settings.SECRET_KEY, algorithm='HS256')
 
         return token
