@@ -2,13 +2,13 @@ from dataclasses import fields
 from pyexpat import model
 from django.contrib.auth import authenticate
 from rest_framework import serializers
-from .models import User, Barber, Client, Skills
+from .models import User, Barber, Client, Skills, Visit
 
 
 class BarberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Barber
-        fields = '__all__'
+        fields = ["last_login", "username", "email", "skills"]
 
 
 class ClientSerializer(serializers.ModelSerializer):
@@ -109,3 +109,8 @@ class SkillSerializers(serializers.ModelSerializer):
         fields = '__all__'
     
 
+class VisitSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Visit
+        fields = '__all__'

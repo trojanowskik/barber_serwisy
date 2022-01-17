@@ -1,7 +1,7 @@
 from re import A
 from urllib import response
 from django.shortcuts import render
-from .serializers import BarberSerializer, ClientSerializer, LoginSerializer, RegistrationSerializer, UserSerializer, SkillSerializers
+from .serializers import BarberSerializer, ClientSerializer, LoginSerializer, RegistrationSerializer, UserSerializer, SkillSerializers, VisitSerializers
 from rest_framework import viewsets
 from .renderers import UserJSONRenderer
 from rest_framework import status
@@ -9,8 +9,8 @@ from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Barber, Client,  Skills
-from .backends import IsStaffForReadOnly, IsStaff
+from .models import Barber, Client,  Skills, Visit
+from .backends import IsStaffForReadOnly, IsStaff, IsClient
 
 class BarberViewSet(viewsets.ModelViewSet):
     queryset = Barber.objects.all()
@@ -73,11 +73,13 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
 
     def get(self, request):
         if request.user.staff:
-            barber = Barber.objects.filter(email = user.email).first()
+            barber = Barber.objects.filter(email = request.user.email).first()
             serializer = BarberSerializer(barber)
         else:
-            client = Client.objects.filter(email = user.email).first()
+            client = Client.objects.filter(email = request.user.email).first()
             serializer = ClientSerializer(client)
+        #skills = Skills.objects.find(pk = serializer.skills)
+        #serializer.data["skills"] = {}
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -92,13 +94,13 @@ class MakeSkills(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def get(self, request):
-        specialization = Skills.objects.all()
-        s = [SkillSerializers(skill).data for skill in specialization]
+        skills = Skills.objects.all()
+        s = [SkillSerializers(skill).data for skill in skills]
         return Response(s)
     
     def delete(self, request):
-        specialization = Skills.objects.filter(skills_name = request.data["skills_name"])
-        specialization.delete()
+        skill = Skills.objects.filter(skills_name = request.data["skills_name"])
+        skill.delete()
         return Response({"message": "usunięto"})
 
 
@@ -111,3 +113,25 @@ class SetSkills(APIView):
         request.user.save()
 
         return  Response({"message": "dodano"})
+    
+    def delete(self, request):
+        spec_name = request.data['skills_name']
+        s = Skills.objects.filter(skills_name = spec_name).first()
+        skill_list = request.user.skills.values()
+        if not {"id":s.id, "skills_name":s.skills_name} in skill_list.values():
+            response.data = {'message':  skill_list.values()}             # "Specjalization not found!!!"
+            return Response(response.data)
+        request.user.skills.remove(s)
+        request.user.save()
+        response.data = {'message': 'Delet success'}
+        return Response(response.data)
+
+
+class SetVisit(APIView):
+    permission_classes = (IsAuthenticated, IsClient)
+
+    def post(self, request):
+        visit = VisitSerializers(data = request.data)
+        visit.is_valid(raise_exception = True)
+        visit.save()
+        return Response(visit.data)

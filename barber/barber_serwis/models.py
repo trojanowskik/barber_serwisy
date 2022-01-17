@@ -76,7 +76,7 @@ class User(AbstractUser):
         return token
 
 class Skills(models.Model):
-    skills_name = models.CharField(max_length=50, default='', unique= True)
+    skills_name = models.CharField(max_length=50, default='', unique=True)
 
     class Meta:
         ordering = ['skills_name']
@@ -89,3 +89,12 @@ class Barber(User):
 
 class Client(User):
     pass
+
+class Visit(models.Model):
+    client = models.ForeignKey(Client, null=True, blank=True, on_delete=models.DO_NOTHING)
+    skills = models.ForeignKey(Skills, null=False, blank=False, on_delete=models.DO_NOTHING)
+    address = models.CharField(max_length=255, default='')
+    date = models.DateTimeField(default='')
+
+    class Meta:
+        ordering = ['date']

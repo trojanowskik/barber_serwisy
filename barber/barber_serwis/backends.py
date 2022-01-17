@@ -72,4 +72,7 @@ class IsStaffForReadOnly(permissions.BasePermission):
 class IsStaff(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.staff 
-            
+
+class IsClient(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return not request.user.staff 
