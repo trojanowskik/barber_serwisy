@@ -1,8 +1,9 @@
+from urllib.request import Request
 import jwt
 
 from django.conf import settings
 
-from rest_framework import authentication, exceptions
+from rest_framework import authentication, exceptions, permissions
 
 from .models import Barber, Client
 
@@ -59,3 +60,16 @@ class JWTAuthentication(authentication.BaseAuthentication):
 
         obj = client if client else barber
         return obj, token
+
+class IsStaffForReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.user.staff == True:
+            return True
+        elif request.user.staff == False and request.method in permissions.SAFE_METHODS:
+            return True
+        return False
+
+class IsStaff(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.staff 
+            

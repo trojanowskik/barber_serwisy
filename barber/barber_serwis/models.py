@@ -76,7 +76,7 @@ class User(AbstractUser):
         return token
 
 class Skills(models.Model):
-    skills_name = models.CharField(max_length=50, default='')
+    skills_name = models.CharField(max_length=50, default='', unique= True)
 
     class Meta:
         ordering = ['skills_name']

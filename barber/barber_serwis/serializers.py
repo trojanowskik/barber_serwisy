@@ -1,6 +1,8 @@
+from dataclasses import fields
+from pyexpat import model
 from django.contrib.auth import authenticate
 from rest_framework import serializers
-from .models import User, Barber, Client
+from .models import User, Barber, Client, Skills
 
 
 class BarberSerializer(serializers.ModelSerializer):
@@ -25,8 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'email', 'username', 'password', 'token',
-        )
+            'email', 'username', 'password', 'token', 'skills')
         read_only_fields = ('token',)
 
     def update(self, instance, validated_data):
@@ -100,3 +101,11 @@ class LoginSerializer(serializers.Serializer):
             'username': user.username,
             'token': user.token
         }
+
+class SkillSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Skills
+        fields = '__all__'
+    
+
