@@ -3,7 +3,6 @@ from urllib import response
 from django.shortcuts import render
 from .serializers import BarberSerializer, ClientSerializer, LoginSerializer, RegistrationSerializer, UserSerializer, SkillSerializers, VisitSerializers
 from rest_framework import viewsets
-from .renderers import UserJSONRenderer
 from rest_framework import status
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -11,11 +10,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Barber, Client,  Skills, Visit
 from .backends import IsStaffForReadOnly, IsStaff, IsClient
+from .emails import send_email
 
 def skill_id_to_name(skills):
     table = []
     for i in skills:
-        #table.append(Skills.objects.filter(pk = i["skills_name"]).first().skills_name)
         table.append(i["skills_name"])
     return table
     
@@ -26,7 +25,6 @@ class BarberViewSet(viewsets.ModelViewSet):
 
 class RegistrationAPIView(APIView):
     permission_classes = (AllowAny,)
-    renderer_classes = (UserJSONRenderer,)
     serializer_class = RegistrationSerializer
 
     def post(self, request):
@@ -39,7 +37,6 @@ class RegistrationAPIView(APIView):
 
 class LoginAPIView(APIView):
     permission_classes = (AllowAny,)
-    renderer_classes = (UserJSONRenderer,)
     serializer_class = LoginSerializer
 
     def post(self, request):
@@ -50,7 +47,6 @@ class LoginAPIView(APIView):
 
 class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated,)
-    #renderer_classes = (UserJSONRenderer,)
     serializer_class = UserSerializer
 
     def retrieve(self, request, *args, **kwargs):
@@ -146,6 +142,7 @@ class SetVisit(APIView):
         visit = VisitSerializers(data = request.data)
         visit.is_valid(raise_exception = True)
         visit.save()
+        send_email(request.user, visit.data)
         return Response(visit.data)
 
     def delete(self, request):

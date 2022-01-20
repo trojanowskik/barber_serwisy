@@ -11,7 +11,6 @@ class BarberSerializer(serializers.ModelSerializer):
         fields = ["last_login", "username", "email", "skills"]
         extra_kwargs = {"skills": {"write_only": True}}
 
-
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client

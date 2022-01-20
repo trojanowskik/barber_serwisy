@@ -139,6 +139,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
 }
 
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' - wysyłanie do sieci
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': (
 #         'rest_framework.permissions.IsAuthenticated',
