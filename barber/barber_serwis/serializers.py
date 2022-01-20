@@ -9,6 +9,7 @@ class BarberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Barber
         fields = ["last_login", "username", "email", "skills"]
+        extra_kwargs = {"skills": {"write_only": True}}
 
 
 class ClientSerializer(serializers.ModelSerializer):
@@ -114,3 +115,8 @@ class VisitSerializers(serializers.ModelSerializer):
     class Meta:
         model = Visit
         fields = '__all__'
+
+    def create(self, validated_data):
+        visit = Visit(**validated_data)
+        visit.save()
+        return visit

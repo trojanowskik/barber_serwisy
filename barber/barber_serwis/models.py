@@ -94,7 +94,7 @@ class Visit(models.Model):
     client = models.ForeignKey(Client, null=True, blank=True, on_delete=models.DO_NOTHING)
     skills = models.ForeignKey(Skills, null=False, blank=False, on_delete=models.DO_NOTHING)
     address = models.CharField(max_length=255, default='')
-    date = models.DateTimeField(default='')
+    date = models.DateTimeField(blank=False, null=False)
 
     class Meta:
         ordering = ['date']
