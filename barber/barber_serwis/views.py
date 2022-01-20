@@ -22,7 +22,6 @@ class BarberViewSet(viewsets.ModelViewSet):
     queryset = Barber.objects.all()
     serializer_class = BarberSerializer
 
-
 class RegistrationAPIView(APIView):
     permission_classes = (AllowAny,)
     serializer_class = RegistrationSerializer
@@ -33,7 +32,6 @@ class RegistrationAPIView(APIView):
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
 
 class LoginAPIView(APIView):
     permission_classes = (AllowAny,)
@@ -85,7 +83,6 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         #serializer.data["skills"] = {}
         return Response((serializer.data, skills), status=status.HTTP_200_OK)
 
-
 class MakeSkills(APIView):
     permission_classes = (IsAuthenticated, IsStaffForReadOnly)
     serializer_class = SkillSerializers
@@ -105,7 +102,6 @@ class MakeSkills(APIView):
         skill = Skills.objects.filter(skills_name = request.data["skills_name"])
         skill.delete()
         return Response({"message": "usunięto"})
-
 
 class SetSkills(APIView):
     permission_classes = (IsAuthenticated, IsStaff)
@@ -128,7 +124,6 @@ class SetSkills(APIView):
         request.user.save()
         response.data = {'message': 'Delete success'}
         return Response(response.data)
-
 
 class SetVisit(APIView):
     permission_classes = (IsAuthenticated, IsClient)
