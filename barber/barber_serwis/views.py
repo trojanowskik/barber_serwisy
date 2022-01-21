@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Barber, Client,  Skills, Visit
 from .backends import IsStaffForReadOnly, IsStaff, IsClient
-from .emails import send_email
+from .tasks import send_email
 
 def skill_id_to_name(skills):
     table = []

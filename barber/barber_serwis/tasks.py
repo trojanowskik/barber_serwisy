@@ -1,5 +1,7 @@
 from django.core.mail import EmailMessage
+from celery import shared_task
 
+@shared_task
 def send_email(user, data):
     date, time = data['date'].split('T')
     time = time.split(':')[:2]
