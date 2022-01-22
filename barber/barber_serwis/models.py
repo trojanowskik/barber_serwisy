@@ -19,6 +19,8 @@ class UserManager(BaseUserManager):
             user = Client.objects.create(username=username, email=self.normalize_email(email))
         elif type == 'barber':
             user = Barber.objects.create(username=username, email=self.normalize_email(email), staff=True)
+        else:
+            user = User.objects.create(username=username, email=self.normalize_email(email), staff=True, is_superuser=True, is_active=True, is_staff=True)
 
         if user:
             user.set_password(password)
@@ -94,7 +96,8 @@ class Visit(models.Model):
     client = models.ForeignKey(Client, null=True, blank=True, on_delete=models.DO_NOTHING)
     skills = models.ForeignKey(Skills, null=False, blank=False, on_delete=models.DO_NOTHING)
     address = models.CharField(max_length=255, default='')
-    date = models.DateTimeField(blank=False, null=False)
+    date = models.DateField(blank=False, null=False)
+    time = models.TimeField(blank=False, null=False, default='12:00')
 
     class Meta:
         ordering = ['date']
