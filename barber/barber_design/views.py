@@ -1,17 +1,31 @@
 from django.shortcuts import render, redirect
+from django.test import client
+from markupsafe import re
 from barber_serwis.models import *
-from .forms import CreateSkillForm, CreateVisitForm, RegistrationForm, LoginForm
+from .forms import CreateSkillForm, CreateVisitForm, RegistrationForm, LoginForm, SetSkillForm
 from django.contrib.auth import authenticate, login, logout
 
 
 def user_view(request):
-    return render(request, "user_view.html") 
+    skills = []
+    if not request.user.is_authenticated:
+        return redirect("login_view")
+    if request.user.staff:
+        user = Barber.objects.get(id = request.user.id)
+        skills = user.skills.values()
+    else :
+        user = Client.objects.get(id = request.user.id)
+    return render(request, "user_view.html", {"user":user, "skills":skills} ) 
 
 def get_skills_view(request):
     skills = Skills.objects.all()
     return render(request, "get_skills_view.html", {"skills":skills})
 
 def create_skill(request):
+    if not request.user.is_authenticated:
+        return redirect("login_view")
+    if not request.user.staff:
+        return redirect("user_view")
     if request.method == 'POST':
         form = CreateSkillForm(request.POST)
         if form.is_valid():
@@ -21,24 +35,54 @@ def create_skill(request):
     return render(request, "create_skill.html", {"form":form})
 
 def delete_skill(request, id):
+    if not request.user.is_authenticated:
+        return redirect("login_view")
+    if not request.user.staff:
+        return redirect("user_view")
     skill = Skill.objects.get(id=id)
     skill.delete()
     return redirect("skills_list")
 
 def create_visit(request):
+    if not request.user.is_authenticated:
+        return redirect("login_view")
+    if request.user.staff:
+        return redirect("user_view")
     if request.method == 'POST':
+        data = request.POST
+    
+        #date = data['date_year'] + "-" + data['date_month'] + "-" + data['date_day'] 
         form = CreateVisitForm(request.POST)
-        if form.is_valid():
+        form.client = request.user
+        if form.is_valid():    
             form.save()
+            print(form)
+        print(data["client"])
+        # visit = Visit.objects.create()
+        # visit.skills = Skills.objects.get(id = data["skills"])
+        # visit.data = date
+        # visit.time = data["time"]
+        # visit.client = request.user.id
+        # visit.save()
     else:
-        form = CreateVisitForm()
-    return render(request, "create_skill.html", {"form":form})
+        form = CreateVisitForm(initial={'client': request.user.id})
+    return render(request, "create_visit.html", {"form":form})
 
 def get_visits_view(request):
-    visits = Visit.objects.all()
+    if not request.user.is_authenticated:
+        return redirect("login_view")
+    if request.user.staff:
+        visits = Visit.objects.all()
+    else:
+        user = Client.objects.get(id = request.user.id)
+        visits = Visit.objects.filter(client = user.id)
     return render(request, "get_visits_view.html", {"visit":visits})
 
 def delete_visit(request, id):
+    if not request.user.is_authenticated:
+        return redirect("login_view")
+    if request.user.staff:
+        return redirect("user_view")
     visit = Visit.objects.get(id=id)
     visit.delete()
     return redirect("visits_list")
@@ -47,12 +91,15 @@ def register_view(request):
     form = RegistrationForm()
     if request.method == 'POST':
         data = request.POST
-        if request.POST["staff"] == "on":
-            barber = Barber.objects.create(username = data['username'], password = data['password'], staff = True, email = data['email'])
-            barber.save()
-            redirect("user_view")
+        if "staff" in data:
+            if data["staff"] == "on":
+                barber = Barber.objects.create(username = data['username'], password = data['password'], staff = True, email = data['email'])
+                barber.set_password(data['password'])
+                barber.save()
+                redirect("user_view")
         else:
             client = Client.objects.create(username = data['username'], password = data['password'], staff = False, email = data['email'])
+            client.set_password(data['password'])
             client.save()
     return render(request, "register_view.html", {"register":form})
 
@@ -69,4 +116,37 @@ def login_view(request):
             return redirect("user_view")
         else:
             context = {"info":"Logowanie się nie powiodło.", "login":form}
+        
     return render(request, 'login_view.html', context)
+
+def set_skill(request):
+    if not request.user.is_authenticated:
+        return redirect("login_view")
+    if not request.user.staff:
+        return redirect("user_view")
+    form = SetSkillForm()
+    user = Barber.objects.get(id = request.user.id)
+    if request.method == "POST":
+        id = request.POST["skills"][0]
+        skill = Skills.objects.get(id = id)
+        user.skills.add(skill)
+        user.save()
+        return redirect('user_view')
+    return render(request, 'set_skill.html', {"form":form})
+
+def delete_user_skill(request, id):
+    if not request.user.is_authenticated:
+        return redirect("login_view")
+    if not request.user.staff:
+        return redirect("user_view")
+    user = Barber.objects.get(id = request.user.id)
+    user.skills.remove(id)
+    return redirect('user_view')
+
+def logout_view(request):
+    if not request.user.is_authenticated:
+        return redirect("login_view")
+    logout(request)
+    return redirect('login_view')
+
+
