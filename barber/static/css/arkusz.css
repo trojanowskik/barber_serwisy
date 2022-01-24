@@ -1,273 +1,53 @@
-
-body{
-	width: 1200px;
-	margin: 0 auto;
-	background: url("https://image.ceneostatic.pl/data/products/35745486/i-opoczno-palette-blue-glossy-mozaika-30x30.jpg")
-	}
-
-header{
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	text-align: center;
-	background-color: #1E90FF;
-	font-family: Courier;
-	}
-
-body header a img{
+html, body{
 	width: 100%;
 	height: 100%;
-	
-
-}
-.wiecej{
-	text-align: right;
-	}	
-
-.naglowki{
-	text-align: center;
-	font-family: Courier;
-	border: 2px solid red;
-	border-radius: 5px 10px 5px 10px;
-	}
-	
-#contener{
-	background-color: #87CEEB;
-	}
-
-.opis{
-	background-color: lightblue;
-	text-align: center;
-	font-size: 20px;
- }	
-img{
-    display: block;
-    margin: auto;
-    width: 98%;
-    height: 40%;
-    border-radius: 10px;
+	margin: 0px;
+	padding: 0px;
+	background-color: #d9d9d9;
 }
 
-.przyklady img{
-	width: 30%;
-	height: 40%;
-	}
-	
-.przyklady2 img{
-	width: 50%;
-	height: 60%;
-	}
-
-.przyklady2 img{
-	width: 60%;
-	height: 70%;
-	}
-	
-#slogan{
-	color: white;
-	text-align: center;
-	font-size: 40px;
-	border: 10px outset blue;
-	}
-	
-ul.menu {
-	float: right;
+#header img{
 	width: 100%;
-	padding: 10px;
-	margin: 10px;
-	list-style: none;
-}
-
-ul.menu li a {
-	display: block;
-	float: right;
-	text-align: center;
-	font-size: 1.2em;
-	width: 170px;
-	text-decoration: none;
-	color: white;
-	background-color: #4682B4;
-	padding: 10px 15px;
-	margin: 0px 1px 1px 0px;
-	border: 1px solid navy;
-	border-radius: 3px;
-	box-shadow: 0px 2px 3px gray;
-}
-
-ul.menu li a:hover {
-color: black;
-background: white;
-border: 1px solid blue;
-}
-
-#contener{
-	float: right;
-	width: 900px;
-	}	
-	
-aside{
-	clear: left;
-	width: 300px;
-	float: left;
-	background-color: #87CEEB;
-	height: auto;
-	}
-	
-
-article{
-	background-color: white;
-	padding: 10px;
-	}
-	
-footer{
-	background-image: url(pencil.png);
-	text-align: center;
-	width: 1200px;
-	background-repeat: no-repeat;
-	background-color: #f2f2f2;
-	background-position: 50% 50%;
-	}
-	
-	
-.spis{
-	padding: 10px;
-	border-style: outset;
-	border-bottom-color: blue;
-	}
-
-
-ul.menu2{
-	list-style: none;
-	margin: 10px;
-	padding: 2px;
-	display: block;
-	width: 300px;
-}
-
-ul.menu2 li{
-	display: block;
-	list-style: none;
+	height: 100%;
 	margin: 0px;
 	padding: 0px;
 }
 
-ul.menu2 a:link, ul.menu2 a:visited{
-	display: block;
-	color: black;
-	text-decoration: none;
-	border: 2px outset #cccccc;
-	padding: 5px;
-	width: 250px;
-	background-color: #4682B4;
+
+.center{
+	background-color: #d3d3d3;
+	height: auto;
+	padding: 5%;
+	width: 60%;
+	margin-left: 25%;
 }
 
-ul.menu2 a:hover{
-	color: black;
-	text-decoration: underline;
-	border-style: inset;
-	padding: 7px 3px 3px 7px;
-	background-color: white;
+.indiv{
+	background: rgba(255, 255, 255, 0.8);
+	border: 3px solid #959595;
+	margin: 5%;
 }
 
-.clear{
-	clear: both;
-}
+.butLog{
+	background-image: linear-gradient(to right, #757F9A 0%, #D7DDE8  51%, #757F9A  100%)}
+         .butLog {
+            margin: 10px;
+            padding: 15px 45px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;
+            box-shadow: 0 0 20px #eee;
+            border-radius: 10px;
+            display: block;
+          }
 
-hr{
-  border: 6px solid blue;
-  border-radius: 5px;
-}
-
-ul.nextlast, ul.nextlast li {
-	display: block;
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-ul.nextlast {
-	text-align: center;
-	width: 200px;
-	padding: 2px 2px 1px 2px;
-	background-color: #9ce;
-	border: 3px double #28e;
-}
-
-ul.nextlast li {
-	border-bottom: 1px solid #9ce;
-}
-
-ul.nextlast a:link, ul a:visited {
-	display: block;
-	width: 176px;
-	text-decoration: none;
-	padding: 7px;
-	font-weight: bold;
-	background-color: #27c;
-	color: #def;
-	border-left: 10px solid #25b;
-}
-
-ul.nextlast a:hover {
-	width: 166px;
-	background-color: #28e;
-	color: #fff;
-	border-left: 20px solid #26d;
-	
-}
-
-.nextlast1{
-	text-align: center;
-	}
-
-.bloki{
-	border-style: solid;
-	border-width: 10px;
-	border-color: blue;
-}
-
-.bloki th{
-	background-color: lightsteelblue;
-	}
-
-.niebieski{
-	color: blue;;
-	font-style: inherit;
-	}
-	
-dl.def {
-	margin: 0 auto;
-	padding: 0;
-	width: 20em;
-}
-.def dt {
-	background-color: lightblue;
-	color: #959289;
-	padding: 8px;
-	font-weight: bold;
-	text-align: center;
-	text-transform: uppercase;
-	border-left: 1px solid #131210;
-	border-right: 1px solid #131210;
-	border-top: 1px solid #131210;
-}
-.def dd {
-	margin: 0 0 16px 0;
-	background: #F0F8FF;
-	text-align: center;
-	padding: 16px 8px;
-	font-style: italic;
-	border-left: 1px solid #131210;
-	border-right: 1px solid #131210;
-	border-bottom: 1px solid #131210;
-}
-
-.h1{
-	text-align: center;
-	font-size: 25px;
-	}
-
+          .butLog:hover {
+            background-position: right center; 
+            color: #fff;
+            text-decoration: none;
+          }
 	
 
 	
