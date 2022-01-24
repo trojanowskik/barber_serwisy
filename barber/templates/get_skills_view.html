@@ -1,6 +1,7 @@
 {%extends "base.html"%}
 
 {%block content%}
+    {{info}}
     {%for skill in skills%}
     {{skill.skills_name}}
     <a href="{%url 'delete_skill' skill.id%}">Usuń</a>

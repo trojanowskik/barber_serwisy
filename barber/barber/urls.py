@@ -20,5 +20,6 @@ from django.contrib import admin
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(('barber_serwis.urls', 'users'), namespace='users')),
-    path('design/', include('barber_design.urls'))
+    path('', include('barber_design.urls')),
+
 ]

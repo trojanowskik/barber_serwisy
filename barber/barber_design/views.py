@@ -38,9 +38,22 @@ def delete_skill(request, id):
         return redirect("login_view")
     if not request.user.staff:
         return redirect("user_view")
-    skill = Skill.objects.get(id=id)
-    skill.delete()
-    return redirect("skills_list")
+    skill = Skills.objects.get(id=id)
+    try:
+        skill.delete()
+        return redirect("skills_list")
+    except:
+        context = {"info":"A specialization cannot be removed if someone has made an appointment."}
+        return render(request, 'get_skills_view.html', context)
+    
+def delete_visit(request, id):
+    if not request.user.is_authenticated:
+        return redirect("login_view")
+    if request.user.staff:
+        return redirect("user_view")
+    visit = Visit.objects.get(id=id)
+    visit.delete()
+    return redirect("visits_list")
 
 def create_visit(request):
     if not request.user.is_authenticated:
@@ -65,15 +78,6 @@ def get_visits_view(request):
         user = Client.objects.get(id = request.user.id)
         visits = Visit.objects.filter(client = user.id)
     return render(request, "get_visits_view.html", {"visit":visits})
-
-def delete_visit(request, id):
-    if not request.user.is_authenticated:
-        return redirect("login_view")
-    if request.user.staff:
-        return redirect("user_view")
-    visit = Visit.objects.get(id=id)
-    visit.delete()
-    return redirect("visits_list")
 
 def register_view(request):
     form = RegistrationForm()
@@ -137,4 +141,5 @@ def logout_view(request):
     logout(request)
     return redirect('login_view')
 
-
+def main_view(request):
+    return render(request, 'main.html')

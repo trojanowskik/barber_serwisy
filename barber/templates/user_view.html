@@ -1,9 +1,7 @@
 {%extends "base.html"%}
 
 {%block content%}
-    {{user.email}}
-    <br>
-    {{user.username}}
+    <p>Zalogowany użytkownik: {{user.username}} / {{user.email}} </p>
     <br>
     {%if request.user.staff%}
     <h3>Specjalizację:</h3>
@@ -15,7 +13,9 @@
     <a href="{%url 'delete_user_skill' skill.id%}" >Usuń specjalizację</a>
     <br>
     {%endfor%}
+    {%else%}
+    <a href="{% url 'create_visit'%}"><input type="button" value="SET VISIT"/></a>
     {%endif%}
-
-
+    
+   
 {%endblock%}

@@ -1,7 +1,6 @@
 from django.conf.urls import include
 from django.urls import path
-from .views import logout_view, user_view, get_skills_view, create_skill, delete_skill, create_visit, get_visits_view, delete_visit, register_view, login_view, set_skill, delete_user_skill
-
+from .views import logout_view, user_view, get_skills_view, create_skill, delete_skill, create_visit, get_visits_view, delete_visit, register_view, login_view, set_skill, delete_user_skill, main_view
 urlpatterns = [
     path('user/', user_view, name = 'user_view'),
     path('skills/', get_skills_view, name = 'skills_list'),
@@ -15,4 +14,5 @@ urlpatterns = [
     path('skills/set/', set_skill, name = 'set_skill'),
     path('skills/delete_user_skill/<int:id>', delete_user_skill, name = 'delete_user_skill'),
     path('logout/', logout_view, name = 'logout_view'),
+    path('', main_view, name = 'main')
 ]

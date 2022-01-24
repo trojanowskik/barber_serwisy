@@ -1,17 +1,22 @@
-{%load static%}
 
 <!DOCTYPE html>
-<html lang="en">
+{%load static%}
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    {%block styles%}
-    {%endblock%}
+    <link rel="stylesheet" type="text/css" href="{% static 'static/css/arkusz.css' %}">
 </head>
 <body>
-    
+    <div class="spislekcji">
+        <aside>
+            <h3 class="spis">Spis lekcji</h3>
+            <ul class="menu2">
+                        <li>dfghj</li>
+            </ul>	
+        </aside>
     {%if request.user.is_authenticated %}
     <a href="{%url 'logout_view'%}">Wyloguj</a>
     <br>
