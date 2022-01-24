@@ -11,9 +11,7 @@ class CreateSkillForm(forms.ModelForm):
 class CreateVisitForm(forms.ModelForm):
     class Meta:
         model = Visit
-        fields = ['date', 'time', 'skills', 'client']
-    
-    
+        fields = '__all__'
 
 class RegistrationForm(forms.Form):
     email = forms.CharField(max_length=255)

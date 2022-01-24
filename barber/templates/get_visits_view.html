@@ -2,7 +2,7 @@
 
 {%block content%}
     {%for v in visit%}
-    {{v.skills_name}}
+    {{v.skills}}
     {{v.date}}
     {{v.time}}
     <a href="{%url 'delete_visit' v.id%}">Usuń</a>

@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.test import client
-from markupsafe import re
 from barber_serwis.models import *
 from .forms import CreateSkillForm, CreateVisitForm, RegistrationForm, LoginForm, SetSkillForm
 from django.contrib.auth import authenticate, login, logout
@@ -48,24 +47,13 @@ def create_visit(request):
         return redirect("login_view")
     if request.user.staff:
         return redirect("user_view")
-    if request.method == 'POST':
-        data = request.POST
-    
-        #date = data['date_year'] + "-" + data['date_month'] + "-" + data['date_day'] 
+
+    form = CreateVisitForm(initial={'client':request.user.id})
+
+    if request.method == "POST":
         form = CreateVisitForm(request.POST)
-        form.client = request.user
-        if form.is_valid():    
-            form.save()
-            print(form)
-        print(data["client"])
-        # visit = Visit.objects.create()
-        # visit.skills = Skills.objects.get(id = data["skills"])
-        # visit.data = date
-        # visit.time = data["time"]
-        # visit.client = request.user.id
-        # visit.save()
-    else:
-        form = CreateVisitForm(initial={'client': request.user.id})
+        form.is_valid()
+        form.save()
     return render(request, "create_visit.html", {"form":form})
 
 def get_visits_view(request):
