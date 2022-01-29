@@ -18,11 +18,13 @@ html, body{
 	grid-template-columns: auto,30%,auto;
 	background: rgba(255, 255, 255, 0.8);
 	border: 3px solid #959595;
+	border-radius: 20px;
 	margin-top: 4%;
 	margin-left: auto;
 	margin-right: auto;
-	width: 80%;
-	height: 100%;
+	width: 60%;
+	min-height: 20%;
+	height: auto;
 }
 
 .przyciski{

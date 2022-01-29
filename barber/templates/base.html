@@ -29,10 +29,12 @@
                 {%else%}
                     <li><a href="{%url 'create_visit'%}">Dodaj wizytę</a></li>
                 {%endif%}
+                <li><a href="{%url 'visits_list'%}">Wizyty</a></li>
             {%else%}
                 <li><a href="{%url 'main'%}">Home</a></li>
+                
             {%endif%}
-            <li><a href="{%url 'visits_list'%}">Wizyty</a></li>
+            
 
         </ul>
         
