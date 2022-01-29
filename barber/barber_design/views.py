@@ -3,7 +3,8 @@ from django.test import client
 from barber_serwis.models import *
 from .forms import CreateSkillForm, CreateVisitForm, RegistrationForm, LoginForm, SetSkillForm
 from django.contrib.auth import authenticate, login, logout
-
+from django.db import IntegrityError
+from barber_serwis.tasks import send_email
 
 def user_view(request):
     skills = []
@@ -56,6 +57,8 @@ def delete_visit(request, id):
     return redirect("visits_list")
 
 def create_visit(request):
+    info=""
+
     if not request.user.is_authenticated:
         return redirect("login_view")
     if request.user.staff:
@@ -64,10 +67,24 @@ def create_visit(request):
     form = CreateVisitForm(initial={'client':request.user.id})
 
     if request.method == "POST":
-        form = CreateVisitForm(request.POST)
-        form.is_valid()
-        form.save()
-    return render(request, "create_visit.html", {"form":form})
+        date = request.POST["date"]
+        time = request.POST["time"]+':00'
+        client = Client.objects.get(id = request.user.id)
+        wizyty = client.visit_set.all()
+        is_exist = False
+        for visit in wizyty:
+            if str(date) == str(visit.date) and str(time) == str(visit.time):
+                is_exist = True
+                info = "Wizyta o takiej dacie i godzinie już istnieje."
+        if is_exist == False:
+            form = CreateVisitForm(request.POST)
+            form.is_valid()
+            form.save()
+            info = "Twoja wizyta została dodana."
+            send_email(request.user, date, time)
+
+
+    return render(request, "create_visit.html", {"form":form, "info":info})
 
 def get_visits_view(request):
     if not request.user.is_authenticated:
@@ -81,19 +98,30 @@ def get_visits_view(request):
 
 def register_view(request):
     form = RegistrationForm()
+    info = ""
     if request.method == 'POST':
         data = request.POST
         if "staff" in data:
             if data["staff"] == "on":
-                barber = Barber.objects.create(username = data['username'], password = data['password'], staff = True, email = data['email'])
-                barber.set_password(data['password'])
-                barber.save()
-                redirect("user_view")
+                try:
+                    barber = Barber.objects.create(username = data['username'], password = data['password'], staff = True, email = data['email'])
+                    barber.set_password(data['password'])
+                    barber.is_valid()
+                    barber.save()
+                    return redirect("login_view")
+                except IntegrityError:
+                    info = "Taki użytkownik już istnieje."
+                
         else:
-            client = Client.objects.create(username = data['username'], password = data['password'], staff = False, email = data['email'])
-            client.set_password(data['password'])
-            client.save()
-    return render(request, "register_view.html", {"register":form})
+            try:
+                client = Client.objects.create(username = data['username'], password = data['password'], staff = False, email = data['email'])
+                client.set_password(data['password'])
+                client.save()
+                return redirect("login_view")
+            except IntegrityError:
+                info = "Taki użytkownik już istnieje."
+             
+    return render(request, "register_view.html", {"register":form, "info":info})
 
 def login_view(request):
     form = LoginForm()

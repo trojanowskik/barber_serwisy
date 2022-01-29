@@ -76,10 +76,11 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         if request.user.staff:
             user = Barber.objects.filter(email = request.user.email).first()
             serializer = BarberSerializer(user)
+            skills = skill_id_to_name(user.skills.values())
         else:
             user = Client.objects.filter(email = request.user.email).first()
             serializer = ClientSerializer(user)
-        skills = skill_id_to_name(user.skills.values())
+            skills = {}
         #serializer.data["skills"] = {}
         return Response((serializer.data, skills), status=status.HTTP_200_OK)
 
@@ -132,12 +133,10 @@ class SetVisit(APIView):
         request.data["client"] = request.user.id
         date = request.data["date"]
         time = request.data["time"]
-        time = time + ":00.000"
-        request.data["date"] = date + "T" + time
         visit = VisitSerializers(data = request.data)
         visit.is_valid(raise_exception = True)
         visit.save()
-        send_email(request.user, visit.data)
+        send_email(request.user, date, time)
         return Response(visit.data)
 
     def delete(self, request):

@@ -11,8 +11,8 @@ urlpatterns = [
     path('delete_visit/<int:id>', delete_visit, name = 'delete_visit'),
     path('register/', register_view, name = 'register_view'),
     path('login/', login_view, name = 'login_view'),
-    path('skills/set/', set_skill, name = 'set_skill'),
-    path('skills/delete_user_skill/<int:id>', delete_user_skill, name = 'delete_user_skill'),
+    path('skills_set/', set_skill, name = 'set_skill'),
+    path('skills_delete_user_skill/<int:id>', delete_user_skill, name = 'delete_user_skill'),
     path('logout/', logout_view, name = 'logout_view'),
     path('', main_view, name = 'main')
 ]

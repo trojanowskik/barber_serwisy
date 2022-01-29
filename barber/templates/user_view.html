@@ -6,15 +6,12 @@
     {%if request.user.staff%}
     <h3>Specjalizację:</h3>
     <br>
-    <a href="{%url 'set_skill'%}">Dodaj specjalizację</a>
-    <br>
     {%for skill in skills%}
     {{skill.skills_name}}
-    <a href="{%url 'delete_user_skill' skill.id%}" >Usuń specjalizację</a>
+    <a href="{%url 'delete_user_skill' skill.id%}" >ZDJECIE WSTAWIC</a>
     <br>
     {%endfor%}
     {%else%}
-    <a href="{% url 'create_visit'%}"><input type="button" value="SET VISIT"/></a>
     {%endif%}
     
    
