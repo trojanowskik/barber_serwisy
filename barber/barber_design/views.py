@@ -106,7 +106,6 @@ def register_view(request):
                 try:
                     barber = Barber.objects.create(username = data['username'], password = data['password'], staff = True, email = data['email'])
                     barber.set_password(data['password'])
-                    barber.is_valid()
                     barber.save()
                     return redirect("login_view")
                 except IntegrityError:
@@ -171,3 +170,4 @@ def logout_view(request):
 
 def main_view(request):
     return render(request, 'main.html')
+

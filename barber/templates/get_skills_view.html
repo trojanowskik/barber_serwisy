@@ -4,6 +4,9 @@
     {{info}}
     {%for skill in skills%}
     {{skill.skills_name}}
-    <a href="{%url 'delete_skill' skill.id%}">Usuń</a>
+    {%if request.user.staff %}
+    <a href="{%url 'delete_skill' skill.id%}"><i class="far fa-trash-alt"></i></a>
+    {%endif%}
+    <br>   
     {%endfor%}
 {%endblock%}

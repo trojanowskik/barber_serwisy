@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BARBER</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/arkusz.css' %}">
+    <script src="https://kit.fontawesome.com/4c3614ddd9.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="header">
@@ -22,16 +23,18 @@
         <ul>
             {%if request.user.is_authenticated %}
                 <li><a href="{%url 'logout_view'%}">Wyloguj</a></li>
-                <li><a href="{%url 'user_view'%}">User</a></li>
+                <li><a href="{%url 'user_view'%}">Użytkownik</a></li>
                 {%if request.user.staff %}
                     <li><a href="{%url 'set_skill'%}">Przypisz specjalizację</a></li>
                     <li><a href="{%url 'create_skill'%}">Dodaj specjalizację</a></li>
+                    <li><a href="{%url 'skills_list'%}">Usuń Specjalizację</a></li>
                 {%else%}
                     <li><a href="{%url 'create_visit'%}">Dodaj wizytę</a></li>
                 {%endif%}
                 <li><a href="{%url 'visits_list'%}">Wizyty</a></li>
             {%else%}
                 <li><a href="{%url 'main'%}">Home</a></li>
+                <li><a href="{%url 'skills_list'%}">Lista specjalizacji</a></li>
                 
             {%endif%}
             
