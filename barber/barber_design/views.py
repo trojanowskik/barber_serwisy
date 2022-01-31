@@ -44,7 +44,7 @@ def delete_skill(request, id):
         skill.delete()
         return redirect("skills_list")
     except:
-        context = {"info":"A specialization cannot be removed if someone has made an appointment."}
+        context = {"info":"Specjalizacji nie można usunąć, jeżeli jest do niej przypisana wizyta."}
         return render(request, 'get_skills_view.html', context)
     
 def delete_visit(request, id):

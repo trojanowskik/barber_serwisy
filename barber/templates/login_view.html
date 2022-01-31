@@ -3,8 +3,8 @@
 {%block content%}
     <form method="post">{%csrf_token%}
         {{login.as_p}}
-        <input type="submit" value="LOGIN">
+        <input type="submit" value="ZALOGUJ">
     </form>
-    <a href="{% url 'register_view'%}"><input type="button" value="REGISTER"/></a>
+    <a href="{% url 'register_view'%}"><input type="button" value="ZAREJESTRUJ"/></a>
     {{info}}
 {%endblock%}

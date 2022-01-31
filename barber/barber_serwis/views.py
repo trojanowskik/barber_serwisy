@@ -81,7 +81,6 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
             user = Client.objects.filter(email = request.user.email).first()
             serializer = ClientSerializer(user)
             skills = {}
-        #serializer.data["skills"] = {}
         return Response((serializer.data, skills), status=status.HTTP_200_OK)
 
 class MakeSkills(APIView):
