@@ -4,7 +4,7 @@
     <p>Zalogowany użytkownik: {{user.username}} / {{user.email}} </p>
     <br>
     {%if request.user.staff%}
-    <h3>Specjalizację:</h3>
+    <h3>Specjalizacje:</h3>
     <br>
     {%for skill in skills%}
     {{skill.skills_name}}
