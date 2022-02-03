@@ -1,5 +1,6 @@
 from django.core.mail import EmailMessage
 from celery import shared_task
+from barber import settings
 
 @shared_task
 def send_email(user, date, time):
@@ -11,5 +12,5 @@ Dziekujemy za wsparcie!"""
 
     email = EmailMessage('Your barber visit', 
     message,
-    'from@example.com', [user.email])
+    settings.EMAIL_HOST_USER, [user.email])
     return email.send()
